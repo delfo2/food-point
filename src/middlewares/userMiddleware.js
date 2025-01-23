@@ -18,6 +18,7 @@ const userMiddleware = {
             };
          
         } catch (error) {
+			console.log(error);
             return res.status(500).json({ error: 'Erro interno no servidor' });
         }
 
@@ -40,6 +41,7 @@ const userMiddleware = {
 
             next();
         } catch (error) {
+			console.log(error);
             return res.status(500).json({ error: 'Erro interno no servidor' });
         }
     },
@@ -49,6 +51,7 @@ const userMiddleware = {
             await userUpdatePasswordSchema.validateAsync(req.body);
             next();
         } catch (error) {
+			console.log(error);
             return res.status(400).json({ error: error.message});
         }
     }

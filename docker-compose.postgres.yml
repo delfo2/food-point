@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+    postgres:
+        image: postgres:latest
+        ports:
+            - "5432:5432"
+        restart: always
+        environment:
+            POSTGRES_DB: foodpoint
+            POSTGRES_USER: foodpoint
+            POSTGRES_PASSWORD: foodpoint
+        networks:
+            - food-point-network
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "foodpoint"]
+            interval: 10s
+            retries: 5
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_data:
+
+networks:
+    food-point-network:
+        driver: bridge

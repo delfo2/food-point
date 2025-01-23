@@ -1,0 +1,35 @@
+name: food-point
+services:
+    postgres:
+        image: bitnami/postgresql:latest
+        ports:
+            - "5432:5432"
+        restart: always
+        environment:
+            POSTGRES_DB: foodpoint
+            POSTGRES_USER: foodpoint
+            POSTGRES_PASSWORD: foodpoint
+        networks:
+            - food-point-network
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "foodpoint"]
+            interval: 10s
+            retries: 5
+
+    backend:
+        build:
+            context: ./
+            dockerfile: dockerfile
+        depends_on:
+            - postgres
+        ports:
+            - "3000:3000"
+        command: >
+            sh -c "npm run migrate && npm run start"
+        restart: always
+        networks:
+            - food-point-network
+
+networks:
+    food-point-network:
+        driver: bridge

@@ -24,6 +24,7 @@ const recoverPassMiddleware = {
 
             next();
         } catch (error) {
+			console.log(error);
             if (error.details && error.details.length > 0) {
                 const errorMessage = error.details[0].message;
                 return res.status(400).json({ error: errorMessage });
@@ -49,6 +50,7 @@ const recoverPassMiddleware = {
             req.userId = isValidToken.userID;
             next();
         } catch (error) {
+			console.log(error);
             return res.status(500).json({ error: 'Erro interno no servidor'});
         }    
     }
